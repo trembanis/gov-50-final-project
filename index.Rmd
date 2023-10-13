@@ -1,6 +1,6 @@
 ---
 title: "Gov 50 Final Project"
-author: "Your Name Here"
+author: "Ella Trembanis"
 description: "My final project"
 output:
   distill::distill_article:
@@ -9,6 +9,6 @@ output:
 
 
 
-## Project thoughts
+## Project Proposal
 
-I am interested in exploring data related to...
+Is poverty linked to student dropouts? Using publicly-available data on recent high school dropout rates in Delaware, I intend to assess the relationship between household income and dropping out of high school. My hypothesis is that, due to financial pressure to support themselves and their families, low-income Delawareans are more likely to drop out. In this project, the explanatory variable is student income status, which is designation "Low-Income" or "Non Low-Income" in the original dataset. This will ultimately be coded into a binary variable which returns "1" for low-income students and "0" for non low-income students. The outcome variable is the student dropout rate in a given year (calculated by dividing the number of dropouts by the total student population), and will be grouped by income status. A pattern of consistent and substantially higher dropout rates among low-income students would support this hypothesis. In mathematical terms, this would be a significant, positive correlation between low-income status and dropouts. On the other hand, a negative or approximately zero correlation would contradict my hypothesis and suggest either (in the case of a negative correlation) that low-income status is associated with lower dropout rates or (in the case of a correlation of approximately zero) that there is no meaningful relationship between the two variables.
