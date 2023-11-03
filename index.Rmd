@@ -11,7 +11,7 @@ output:
 
 ## Project Proposal
 
-Is poverty linked to student dropouts? Using publicly-available data on recent high school dropout rates in Delaware, I intend to assess the relationship between household income and dropping out of high school. My hypothesis is that, due to financial pressure to support themselves and their families, low-income Delawareans are more likely to drop out. In this project, the explanatory variable is student income status, which is designation "Low-Income" or "Non Low-Income" in the original dataset. This will ultimately be coded into a binary variable which returns "1" for low-income students and "0" for non low-income students. The outcome variable is the student dropout rate in a given year (calculated by dividing the number of dropouts by the total student population), and will be grouped by income status. A pattern of consistent and substantially higher dropout rates among low-income students would support this hypothesis. In mathematical terms, this would be a significant, positive correlation between low-income status and dropouts. On the other hand, a negative or approximately zero correlation would contradict my hypothesis and suggest either (in the case of a negative correlation) that low-income status is associated with lower dropout rates or (in the case of a correlation of approximately zero) that there is no meaningful relationship between the two variables.
+Does gender impact to student dropout rates? Using publicly-available data on recent high school dropout rates in Delaware, I intend to assess the relationship between gender and dropping out of high school. My hypothesis is that male students may be more likely to drop out, perhaps due to their pursuing "masculine-coded" jobs involving manual labor and/or trades skills which may not require high school diplomas. In this project, the explanatory variable is gender, which is designated "Male" or "Female" in the original dataset. This will ultimately be coded into a binary variable which returns "1" for male students and "0" for female students. The outcome variable is the student dropout rate in a given year (calculated by dividing the number of dropouts by the total student population), and will be grouped by gender. A pattern of consistent and substantially higher dropout rates among male students would support my initial hypothesis. In mathematical terms, this would be a significant, positive correlation between being male (that is to say, having an x-term of "1") and dropouts. On the other hand, a negative or approximately zero correlation would contradict my hypothesis and suggest either (in the case of a negative correlation) that being female is associated with higher dropout rates or (in the case of a correlation of approximately zero) that there is no meaningful relationship between the two variables.
 
 ## Data Visualization
 
@@ -21,7 +21,29 @@ library(ggplot2)
 dropout <- read.csv("data/Student_Dropout.csv")
 ```
 
-```{r barplot}
+```{r gender scatter}
+dropout_gender <- dropout |>
+  filter(Gender != "All Students") |>
+  group_by(Gender, School.Year) |>
+  summarize(
+    avg_dropout_pct = mean(PctDropouts, na.rm = TRUE)
+  )
+
+dropout_gender_scatter <- ggplot(dropout_gender, 
+                             mapping = aes(x = School.Year, y = avg_dropout_pct)) +
+  geom_point(aes(color = Gender)) +
+  geom_smooth(aes(color = Gender), se = FALSE, span = 1) +
+  labs(
+    x = "School Year",
+    y = "Average Dropout Rate (%)",
+    title = "Yearly Dropout Rates by Gender, 2015-2022"
+  )
+dropout_gender_scatter
+```
+
+## Additional Plots
+
+```{r race barplot}
 dropout_race <- dropout |>
   filter(Organization == "State of Delaware") |>
   filter(Race == "African American" | Race == "White" | Race == "Asian American" | Race == "Hispanic/Latino" | Race == "Multi-Racial" | Race == "Native American") |>
@@ -41,7 +63,7 @@ dropout_bar <- ggplot(dropout_race, aes(x = Race, y = avg_pct_dropout)) +
 dropout_bar
 ```
 
-```{r scatter}
+```{r race scatter}
 dropout_race_year <- dropout |>
   filter(Organization == "State of Delaware") |>
   filter(Race == "African American" | Race == "White" | Race == "Asian American" | Race == "Hispanic/Latino" | Race == "Multi-Racial" | Race == "Native American") |>
@@ -51,7 +73,8 @@ dropout_race_year <- dropout |>
   ) |>
   drop_na(avg_dropout_pct)
 
-ggplot(dropout_race_year, mapping = aes(x = School.Year, y = avg_dropout_pct)) +
+dropout_race_scatter <- ggplot(dropout_race_year, mapping = 
+                                 aes(x = School.Year, y = avg_dropout_pct)) +
   geom_point(aes(color = Race)) +
   geom_smooth(aes(color = Race), se = FALSE, span = 1) +
   labs(
@@ -59,4 +82,6 @@ ggplot(dropout_race_year, mapping = aes(x = School.Year, y = avg_dropout_pct)) +
     y = "Average Dropout Rate (%)",
     title = "Yearly Dropout Rates by Race, 2015-2022"
   )
+
+dropout_race_scatter
 ```
