@@ -12,3 +12,52 @@ output:
 ## Project Proposal
 
 Is poverty linked to student dropouts? Using publicly-available data on recent high school dropout rates in Delaware, I intend to assess the relationship between household income and dropping out of high school. My hypothesis is that, due to financial pressure to support themselves and their families, low-income Delawareans are more likely to drop out. In this project, the explanatory variable is student income status, which is designation "Low-Income" or "Non Low-Income" in the original dataset. This will ultimately be coded into a binary variable which returns "1" for low-income students and "0" for non low-income students. The outcome variable is the student dropout rate in a given year (calculated by dividing the number of dropouts by the total student population), and will be grouped by income status. A pattern of consistent and substantially higher dropout rates among low-income students would support this hypothesis. In mathematical terms, this would be a significant, positive correlation between low-income status and dropouts. On the other hand, a negative or approximately zero correlation would contradict my hypothesis and suggest either (in the case of a negative correlation) that low-income status is associated with lower dropout rates or (in the case of a correlation of approximately zero) that there is no meaningful relationship between the two variables.
+
+## Data Visualization
+
+```{r setup}
+library(tidyverse)
+library(ggplot2)
+dropout <- read.csv("data/Student_Dropout.csv")
+glimpse(dropout)
+```
+
+```{r barplot}
+dropout_race <- dropout |>
+  filter(Organization == "State of Delaware") |>
+  filter(Race == "African American" | Race == "White" | Race == "Asian American" | Race == "Hispanic/Latino" | Race == "Multi-Racial" | Race == "Native American") |>
+  group_by(Race) |>
+  summarize(
+    avg_pct_dropout = mean(PctDropouts, na.rm = TRUE)
+  )
+
+dropout_bar <- ggplot(dropout_race, aes(x = Race, y = avg_pct_dropout)) +
+         geom_col(fill = "dodgerblue1") +
+  geom_hline(yintercept = 5.0294349, linewidth = 1.5) +
+  labs(
+    y = "Average Dropout Rate (%)",
+    title = "Dropout Rates by Race, 2015-2022"
+  ) +
+  annotate("text", x = 2, y = 5.35, label = "Average Overall Dropout Rate")
+dropout_bar
+```
+
+```{r scatter}
+dropout_race_year <- dropout |>
+  filter(Organization == "State of Delaware") |>
+  filter(Race == "African American" | Race == "White" | Race == "Asian American" | Race == "Hispanic/Latino" | Race == "Multi-Racial" | Race == "Native American") |>
+  group_by(School.Year, Race) |>
+  summarize(
+    avg_dropout_pct = mean(PctDropouts, na.rm = TRUE)
+  ) |>
+  drop_na(avg_dropout_pct)
+
+ggplot(dropout_race_year, mapping = aes(x = School.Year, y = avg_dropout_pct)) +
+  geom_point(aes(color = Race)) +
+  geom_smooth(aes(color = Race), se = FALSE, span = 1) +
+  labs(
+    x = "School Year",
+    y = "Average Dropout Rate (%)",
+    title = "Yearly Dropout Rates by Race, 2015-2022"
+  )
+```
