@@ -19,7 +19,6 @@ Is poverty linked to student dropouts? Using publicly-available data on recent h
 library(tidyverse)
 library(ggplot2)
 dropout <- read.csv("data/Student_Dropout.csv")
-glimpse(dropout)
 ```
 
 ```{r barplot}
