@@ -11,7 +11,7 @@ output:
 
 ## Project Proposal
 
-Does gender impact to student dropout rates? Using publicly-available data on recent high school dropout rates in Delaware, I intend to assess the relationship between gender and dropping out of high school. My hypothesis is that male students may be more likely to drop out, perhaps due to their pursuing "masculine-coded" jobs involving manual labor and/or trades skills which may not require high school diplomas. In this project, the explanatory variable is gender, which is designated "Male" or "Female" in the original dataset. This will ultimately be coded into a binary variable which returns "1" for male students and "0" for female students. The outcome variable is the student dropout rate in a given year (calculated by dividing the number of dropouts by the total student population), and will be grouped by gender. A pattern of consistent and substantially higher dropout rates among male students would support my initial hypothesis. In mathematical terms, this would be a significant, positive correlation between being male (that is to say, having an x-term of "1") and dropouts. On the other hand, a negative or approximately zero correlation would contradict my hypothesis and suggest either (in the case of a negative correlation) that being female is associated with higher dropout rates or (in the case of a correlation of approximately zero) that there is no meaningful relationship between the two variables.
+Does school type impact to student dropout rates? Using publicly-available data on recent high school dropout rates in Delaware, I intend to assess the relationship between school type (either charter or public) and dropping out of high school. My hypothesis is that students who have both self-selected to attend charter schools, perhaps indicating a concern about the quality of public schools or a desire for a more specialized experience (such as an art- or STEM-focused charter school) and have been selected to attend, which for some charter schools involves nominally merit-based factors, such as student interviews, will be less likely to drop out. In this project, the explanatory variable is school type, designated either "Charter" or "Public". Since this variable was not present in the original dataset, a designation will be applied to each unique school code, and for the purposes of analysis, alternatives such as vocational-technical and special education schools will be excluded. The outcome variable is the student dropout rate in a given year (calculated by dividing the number of dropouts by the total student population), and will be grouped by school type. A pattern of consistent and substantially higher dropout rates among public school students would support my initial hypothesis. In mathematical terms, this would be a significant, positive difference-in-means, when calculated as the average public school dropout rate minus the average charter school dropout rate.
 
 ## Data Visualization
 
@@ -20,6 +20,77 @@ library(tidyverse)
 library(ggplot2)
 dropout <- read.csv("data/Student_Dropout.csv")
 ```
+
+```{r school type scatter}
+dropout_type_year <- dropout |>
+  mutate(
+    school_type = case_when(School.Code == 26 | School.Code == 66 | School.Code == 80 | School.Code == 652 | School.Code == 770 ~ "Vocational-Technical",
+                            School.Code == 354 | School.Code == 522 | School.Code == 537 | School.Code == 655 | School.Code == 689 ~ "Public (Alternative/SpecEd)",
+                            School.Code == 567 | School.Code == 570 | School.Code == 574 | School.Code == 576 | School.Code == 578 | School.Code == 587 | School.Code == 4055 | School.Code == 4060 | School.Code == 4075 | School.Code == 4080 ~ "Charter",
+                            School.Code == 4040 ~ "Dual Enrollment",
+                            School.Code == 0 ~ "State of Delaware",
+                            TRUE ~ "Public")
+  ) |>
+  filter(
+    school_type == "Public" | school_type == "Charter"
+  ) |>
+  group_by(school_type, School.Year) |>
+  summarize(
+    avg_dropout_pct = mean(PctDropouts, na.rm = TRUE)
+  )
+
+dropout_type_scatter <- ggplot(data = dropout_type_year, mapping = aes(x = School.Year, y = avg_dropout_pct)) +
+  geom_point(aes(color = school_type)) +
+  geom_smooth(aes(color = school_type), span = 1) +
+  labs(
+    x = "School Year",
+    y = "Average Dropout Rate (%)",
+    title = "Yearly Dropout Rates by School Type, 2015-2022"
+  )
+dropout_type_scatter
+```
+
+```{r school type bar}
+dropout_type <- dropout |>
+  mutate(
+    school_type = case_when(School.Code == 26 | School.Code == 66 | School.Code == 80 | School.Code == 652 | School.Code == 770 ~ "Vocational-Technical",
+                            School.Code == 354 | School.Code == 522 | School.Code == 537 | School.Code == 655 | School.Code == 689 ~ "Public (Alternative/SpecEd)",
+                            School.Code == 567 | School.Code == 570 | School.Code == 574 | School.Code == 576 | School.Code == 578 | School.Code == 587 | School.Code == 4055 | School.Code == 4060 | School.Code == 4075 | School.Code == 4080 ~ "Charter",
+                            School.Code == 4040 ~ "Dual Enrollment",
+                            School.Code == 0 ~ "State of Delaware",
+                            TRUE ~ "Public")
+  ) |>
+  filter(
+    school_type == "Public" | school_type == "Charter"
+  ) |>
+  group_by(school_type) |>
+  summarize(
+    avg_dropout_pct = mean(PctDropouts, na.rm = TRUE)
+  )
+
+dropout_type_bar <- ggplot(data = dropout_type, mapping = aes(x = school_type, y = avg_dropout_pct)) +
+  geom_col(fill = "dodgerblue1") +
+  labs(
+    x = "School Type",
+    y = "Average Dropout Rate (%)",
+    title = "Dropout Rates by School Type, 2015-2022"
+  )
+dropout_type_bar
+```
+
+```{r school type diff in means}
+dropout_type |>
+  pivot_wider(
+    names_from = school_type,
+    values_from = avg_dropout_pct
+  ) |>
+  mutate(
+    dim = `Charter` - `Public`
+  ) |>
+  rename("Difference in Means" = dim)
+```
+
+## Additional Plots
 
 ```{r gender scatter}
 dropout_gender <- dropout |>
@@ -40,8 +111,6 @@ dropout_gender_scatter <- ggplot(dropout_gender,
   )
 dropout_gender_scatter
 ```
-
-## Additional Plots
 
 ```{r race barplot}
 dropout_race <- dropout |>

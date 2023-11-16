@@ -115,7 +115,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["data/Student_Dropout.csv","index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/barplot-1.png","index_files/figure-html5/gender scatter-1.png","index_files/figure-html5/race barplot-1.png","index_files/figure-html5/race scatter-1.png","index_files/figure-html5/scatter-1.png","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.24/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["data/Student_Dropout.csv","index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/barplot-1.png","index_files/figure-html5/gender scatter-1.png","index_files/figure-html5/race barplot-1.png","index_files/figure-html5/race scatter-1.png","index_files/figure-html5/scatter-1.png","index_files/figure-html5/school type bar-1.png","index_files/figure-html5/school type scatter-1.png","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.24/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1518,7 +1518,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 <div class="d-article">
 <h2 id="project-proposal">Project Proposal</h2>
-<p>Does gender impact to student dropout rates? Using publicly-available data on recent high school dropout rates in Delaware, I intend to assess the relationship between gender and dropping out of high school. My hypothesis is that male students may be more likely to drop out, perhaps due to their pursuing “masculine-coded” jobs involving manual labor and/or trades skills which may not require high school diplomas. In this project, the explanatory variable is gender, which is designated “Male” or “Female” in the original dataset. This will ultimately be coded into a binary variable which returns “1” for male students and “0” for female students. The outcome variable is the student dropout rate in a given year (calculated by dividing the number of dropouts by the total student population), and will be grouped by gender. A pattern of consistent and substantially higher dropout rates among male students would support my initial hypothesis. In mathematical terms, this would be a significant, positive correlation between being male (that is to say, having an x-term of “1”) and dropouts. On the other hand, a negative or approximately zero correlation would contradict my hypothesis and suggest either (in the case of a negative correlation) that being female is associated with higher dropout rates or (in the case of a correlation of approximately zero) that there is no meaningful relationship between the two variables.</p>
+<p>Does school type impact to student dropout rates? Using publicly-available data on recent high school dropout rates in Delaware, I intend to assess the relationship between school type (either charter or public) and dropping out of high school. My hypothesis is that students who have both self-selected to attend charter schools, perhaps indicating a concern about the quality of public schools or a desire for a more specialized experience (such as an art- or STEM-focused charter school) and have been selected to attend, which for some charter schools involves nominally merit-based factors, such as student interviews, will be less likely to drop out. In this project, the explanatory variable is school type, designated either “Charter” or “Public”. Since this variable was not present in the original dataset, a designation will be applied to each unique school code, and for the purposes of analysis, alternatives such as vocational-technical and special education schools will be excluded. The outcome variable is the student dropout rate in a given year (calculated by dividing the number of dropouts by the total student population), and will be grouped by school type. A pattern of consistent and substantially higher dropout rates among public school students would support my initial hypothesis. In mathematical terms, this would be a significant, positive difference-in-means, when calculated as the average public school dropout rate minus the average charter school dropout rate.</p>
 <h2 id="data-visualization">Data Visualization</h2>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
@@ -1527,6 +1527,85 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span><span class='va'>dropout</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span><span class='op'>(</span><span class='st'>"data/Student_Dropout.csv"</span><span class='op'>)</span></span></code></pre>
 </div>
 </div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>dropout_type_year</span> <span class='op'>&lt;-</span> <span class='va'>dropout</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span></span>
+<span>    school_type <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/case_when.html'>case_when</a></span><span class='op'>(</span><span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>26</span> <span class='op'>|</span> <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>66</span> <span class='op'>|</span> <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>80</span> <span class='op'>|</span> <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>652</span> <span class='op'>|</span> <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>770</span> <span class='op'>~</span> <span class='st'>"Vocational-Technical"</span>,</span>
+<span>                            <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>354</span> <span class='op'>|</span> <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>522</span> <span class='op'>|</span> <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>537</span> <span class='op'>|</span> <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>655</span> <span class='op'>|</span> <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>689</span> <span class='op'>~</span> <span class='st'>"Public (Alternative/SpecEd)"</span>,</span>
+<span>                            <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>567</span> <span class='op'>|</span> <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>570</span> <span class='op'>|</span> <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>574</span> <span class='op'>|</span> <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>576</span> <span class='op'>|</span> <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>578</span> <span class='op'>|</span> <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>587</span> <span class='op'>|</span> <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>4055</span> <span class='op'>|</span> <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>4060</span> <span class='op'>|</span> <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>4075</span> <span class='op'>|</span> <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>4080</span> <span class='op'>~</span> <span class='st'>"Charter"</span>,</span>
+<span>                            <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>4040</span> <span class='op'>~</span> <span class='st'>"Dual Enrollment"</span>,</span>
+<span>                            <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>0</span> <span class='op'>~</span> <span class='st'>"State of Delaware"</span>,</span>
+<span>                            <span class='cn'>TRUE</span> <span class='op'>~</span> <span class='st'>"Public"</span><span class='op'>)</span></span>
+<span>  <span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span></span>
+<span>    <span class='va'>school_type</span> <span class='op'>==</span> <span class='st'>"Public"</span> <span class='op'>|</span> <span class='va'>school_type</span> <span class='op'>==</span> <span class='st'>"Charter"</span></span>
+<span>  <span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>school_type</span>, <span class='va'>School.Year</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span><span class='op'>(</span></span>
+<span>    avg_dropout_pct <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>PctDropouts</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span>  <span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>dropout_type_scatter</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>dropout_type_year</span>, mapping <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>School.Year</span>, y <span class='op'>=</span> <span class='va'>avg_dropout_pct</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>color <span class='op'>=</span> <span class='va'>school_type</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_smooth.html'>geom_smooth</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>color <span class='op'>=</span> <span class='va'>school_type</span><span class='op'>)</span>, span <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span></span>
+<span>    x <span class='op'>=</span> <span class='st'>"School Year"</span>,</span>
+<span>    y <span class='op'>=</span> <span class='st'>"Average Dropout Rate (%)"</span>,</span>
+<span>    title <span class='op'>=</span> <span class='st'>"Yearly Dropout Rates by School Type, 2015-2022"</span></span>
+<span>  <span class='op'>)</span></span>
+<span><span class='va'>dropout_type_scatter</span></span></code></pre>
+</div>
+<p><img src="index_files/figure-html5/school%20type%20scatter-1.png" width="624" /></p>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>dropout_type</span> <span class='op'>&lt;-</span> <span class='va'>dropout</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span></span>
+<span>    school_type <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/case_when.html'>case_when</a></span><span class='op'>(</span><span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>26</span> <span class='op'>|</span> <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>66</span> <span class='op'>|</span> <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>80</span> <span class='op'>|</span> <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>652</span> <span class='op'>|</span> <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>770</span> <span class='op'>~</span> <span class='st'>"Vocational-Technical"</span>,</span>
+<span>                            <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>354</span> <span class='op'>|</span> <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>522</span> <span class='op'>|</span> <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>537</span> <span class='op'>|</span> <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>655</span> <span class='op'>|</span> <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>689</span> <span class='op'>~</span> <span class='st'>"Public (Alternative/SpecEd)"</span>,</span>
+<span>                            <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>567</span> <span class='op'>|</span> <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>570</span> <span class='op'>|</span> <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>574</span> <span class='op'>|</span> <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>576</span> <span class='op'>|</span> <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>578</span> <span class='op'>|</span> <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>587</span> <span class='op'>|</span> <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>4055</span> <span class='op'>|</span> <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>4060</span> <span class='op'>|</span> <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>4075</span> <span class='op'>|</span> <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>4080</span> <span class='op'>~</span> <span class='st'>"Charter"</span>,</span>
+<span>                            <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>4040</span> <span class='op'>~</span> <span class='st'>"Dual Enrollment"</span>,</span>
+<span>                            <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>0</span> <span class='op'>~</span> <span class='st'>"State of Delaware"</span>,</span>
+<span>                            <span class='cn'>TRUE</span> <span class='op'>~</span> <span class='st'>"Public"</span><span class='op'>)</span></span>
+<span>  <span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span></span>
+<span>    <span class='va'>school_type</span> <span class='op'>==</span> <span class='st'>"Public"</span> <span class='op'>|</span> <span class='va'>school_type</span> <span class='op'>==</span> <span class='st'>"Charter"</span></span>
+<span>  <span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>school_type</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span><span class='op'>(</span></span>
+<span>    avg_dropout_pct <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>PctDropouts</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span>  <span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>dropout_type_bar</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>dropout_type</span>, mapping <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>school_type</span>, y <span class='op'>=</span> <span class='va'>avg_dropout_pct</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_col</a></span><span class='op'>(</span>fill <span class='op'>=</span> <span class='st'>"dodgerblue1"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span></span>
+<span>    x <span class='op'>=</span> <span class='st'>"School Type"</span>,</span>
+<span>    y <span class='op'>=</span> <span class='st'>"Average Dropout Rate (%)"</span>,</span>
+<span>    title <span class='op'>=</span> <span class='st'>"Dropout Rates by School Type, 2015-2022"</span></span>
+<span>  <span class='op'>)</span></span>
+<span><span class='va'>dropout_type_bar</span></span></code></pre>
+</div>
+<p><img src="index_files/figure-html5/school%20type%20bar-1.png" width="624" /></p>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>dropout_type</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://tidyr.tidyverse.org/reference/pivot_wider.html'>pivot_wider</a></span><span class='op'>(</span></span>
+<span>    names_from <span class='op'>=</span> <span class='va'>school_type</span>,</span>
+<span>    values_from <span class='op'>=</span> <span class='va'>avg_dropout_pct</span></span>
+<span>  <span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span></span>
+<span>    dim <span class='op'>=</span> <span class='va'>`Charter`</span> <span class='op'>-</span> <span class='va'>`Public`</span></span>
+<span>  <span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/rename.html'>rename</a></span><span class='op'>(</span><span class='st'>"Difference in Means"</span> <span class='op'>=</span> <span class='va'>dim</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code># A tibble: 1 × 3
+  Charter Public `Difference in Means`
+    &lt;dbl&gt;  &lt;dbl&gt;                 &lt;dbl&gt;
+1    9.56   6.13                  3.43</code></pre>
+</div>
+<h2 id="additional-plots">Additional Plots</h2>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>dropout_gender</span> <span class='op'>&lt;-</span> <span class='va'>dropout</span> <span class='op'>|&gt;</span></span>
@@ -1549,7 +1628,6 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 <p><img src="index_files/figure-html5/gender%20scatter-1.png" width="624" /></p>
 </div>
-<h2 id="additional-plots">Additional Plots</h2>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>dropout_race</span> <span class='op'>&lt;-</span> <span class='va'>dropout</span> <span class='op'>|&gt;</span></span>
@@ -1597,7 +1675,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 <p><img src="index_files/figure-html5/race%20scatter-1.png" width="624" /></p>
 </div>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
