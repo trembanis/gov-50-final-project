@@ -115,7 +115,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["data/Student_Dropout.csv","index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/barplot-1.png","index_files/figure-html5/gender scatter-1.png","index_files/figure-html5/race barplot-1.png","index_files/figure-html5/race scatter-1.png","index_files/figure-html5/scatter-1.png","index_files/figure-html5/school type bar-1.png","index_files/figure-html5/school type scatter-1.png","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.24/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["data/Student_Dropout.csv","index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/barplot-1.png","index_files/figure-html5/gender scatter-1.png","index_files/figure-html5/race barplot-1.png","index_files/figure-html5/race scatter-1.png","index_files/figure-html5/scatter-1.png","index_files/figure-html5/school type bar-1.png","index_files/figure-html5/school type scatter-1.png","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.24/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/kePrint-0.0.1/kePrint.js","index_files/lightable-0.0.1/lightable.css","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1473,6 +1473,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
   <!--/radix_placeholder_distill-->
   <script src="index_files/header-attrs-2.24/header-attrs.js"></script>
+  <script src="index_files/kePrint-0.0.1/kePrint.js"></script>
+  <link href="index_files/lightable-0.0.1/lightable.css" rel="stylesheet" />
   <script src="index_files/jquery-3.6.0/jquery-3.6.0.min.js"></script>
   <script src="index_files/popper-2.6.0/popper.min.js"></script>
   <link href="index_files/tippy-6.2.7/tippy.css" rel="stylesheet" />
@@ -1529,7 +1531,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>dropout_type_year</span> <span class='op'>&lt;-</span> <span class='va'>dropout</span> <span class='op'>|&gt;</span></span>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>dropout</span> <span class='op'>&lt;-</span> <span class='va'>dropout</span> <span class='op'>|&gt;</span></span>
 <span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span></span>
 <span>    school_type <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/case_when.html'>case_when</a></span><span class='op'>(</span><span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>26</span> <span class='op'>|</span> <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>66</span> <span class='op'>|</span> <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>80</span> <span class='op'>|</span> <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>652</span> <span class='op'>|</span> <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>770</span> <span class='op'>~</span> <span class='st'>"Vocational-Technical"</span>,</span>
 <span>                            <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>354</span> <span class='op'>|</span> <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>522</span> <span class='op'>|</span> <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>537</span> <span class='op'>|</span> <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>655</span> <span class='op'>|</span> <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>689</span> <span class='op'>~</span> <span class='st'>"Public (Alternative/SpecEd)"</span>,</span>
@@ -1537,7 +1539,9 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span>                            <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>4040</span> <span class='op'>~</span> <span class='st'>"Dual Enrollment"</span>,</span>
 <span>                            <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>0</span> <span class='op'>~</span> <span class='st'>"State of Delaware"</span>,</span>
 <span>                            <span class='cn'>TRUE</span> <span class='op'>~</span> <span class='st'>"Public"</span><span class='op'>)</span></span>
-<span>  <span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>dropout_type_year</span> <span class='op'>&lt;-</span> <span class='va'>dropout</span> <span class='op'>|&gt;</span></span>
 <span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span></span>
 <span>    <span class='va'>school_type</span> <span class='op'>==</span> <span class='st'>"Public"</span> <span class='op'>|</span> <span class='va'>school_type</span> <span class='op'>==</span> <span class='st'>"Charter"</span></span>
 <span>  <span class='op'>)</span> <span class='op'>|&gt;</span></span>
@@ -1560,15 +1564,180 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>dropout_type</span> <span class='op'>&lt;-</span> <span class='va'>dropout</span> <span class='op'>|&gt;</span></span>
-<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span></span>
-<span>    school_type <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/case_when.html'>case_when</a></span><span class='op'>(</span><span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>26</span> <span class='op'>|</span> <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>66</span> <span class='op'>|</span> <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>80</span> <span class='op'>|</span> <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>652</span> <span class='op'>|</span> <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>770</span> <span class='op'>~</span> <span class='st'>"Vocational-Technical"</span>,</span>
-<span>                            <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>354</span> <span class='op'>|</span> <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>522</span> <span class='op'>|</span> <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>537</span> <span class='op'>|</span> <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>655</span> <span class='op'>|</span> <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>689</span> <span class='op'>~</span> <span class='st'>"Public (Alternative/SpecEd)"</span>,</span>
-<span>                            <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>567</span> <span class='op'>|</span> <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>570</span> <span class='op'>|</span> <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>574</span> <span class='op'>|</span> <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>576</span> <span class='op'>|</span> <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>578</span> <span class='op'>|</span> <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>587</span> <span class='op'>|</span> <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>4055</span> <span class='op'>|</span> <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>4060</span> <span class='op'>|</span> <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>4075</span> <span class='op'>|</span> <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>4080</span> <span class='op'>~</span> <span class='st'>"Charter"</span>,</span>
-<span>                            <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>4040</span> <span class='op'>~</span> <span class='st'>"Dual Enrollment"</span>,</span>
-<span>                            <span class='va'>School.Code</span> <span class='op'>==</span> <span class='fl'>0</span> <span class='op'>~</span> <span class='st'>"State of Delaware"</span>,</span>
-<span>                            <span class='cn'>TRUE</span> <span class='op'>~</span> <span class='st'>"Public"</span><span class='op'>)</span></span>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>dropout_lm</span> <span class='op'>&lt;-</span> <span class='va'>dropout</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://tidyr.tidyverse.org/reference/drop_na.html'>drop_na</a></span><span class='op'>(</span><span class='va'>PctDropouts</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span></span>
+<span>    <span class='va'>school_type</span> <span class='op'>==</span> <span class='st'>"Public"</span> <span class='op'>|</span> <span class='va'>school_type</span> <span class='op'>==</span> <span class='st'>"Charter"</span></span>
 <span>  <span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>SpecialDemo</span> <span class='op'>==</span> <span class='st'>"Low-Income"</span> <span class='op'>|</span> <span class='va'>SpecialDemo</span> <span class='op'>==</span> <span class='st'>"Non Low-Income"</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Race</span> <span class='op'>==</span> <span class='st'>"African American"</span> <span class='op'>|</span> <span class='va'>Race</span> <span class='op'>==</span> <span class='st'>"White"</span> <span class='op'>|</span> <span class='va'>Race</span> <span class='op'>==</span> <span class='st'>"Asian American"</span> <span class='op'>|</span> <span class='va'>Race</span> <span class='op'>==</span> <span class='st'>"Hispanic/Latino"</span> <span class='op'>|</span> <span class='va'>Race</span> <span class='op'>==</span> <span class='st'>"Multi-Racial"</span> <span class='op'>|</span> <span class='va'>Race</span> <span class='op'>==</span> <span class='st'>"Native American"</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span></span>
+<span>    low_income <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/if_else.html'>if_else</a></span><span class='op'>(</span><span class='va'>SpecialDemo</span> <span class='op'>==</span> <span class='st'>"Low-Income"</span>, <span class='fl'>1</span>, <span class='fl'>0</span><span class='op'>)</span>,</span>
+<span>    public <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/if_else.html'>if_else</a></span><span class='op'>(</span><span class='va'>school_type</span> <span class='op'>==</span> <span class='st'>"Public"</span>, <span class='fl'>1</span>, <span class='fl'>0</span><span class='op'>)</span>,</span>
+<span>    white <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/if_else.html'>if_else</a></span><span class='op'>(</span><span class='va'>Race</span> <span class='op'>==</span> <span class='st'>"White"</span>, <span class='fl'>1</span>, <span class='fl'>0</span><span class='op'>)</span></span>
+<span>  <span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>fit1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>PctDropouts</span> <span class='op'>~</span> <span class='va'>public</span> <span class='op'>+</span> <span class='va'>low_income</span> <span class='op'>+</span> <span class='va'>white</span>, data <span class='op'>=</span> <span class='va'>dropout_lm</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>fit1</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code>
+Call:
+lm(formula = PctDropouts ~ public + low_income + white, data = dropout_lm)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-10.549  -3.972  -1.448   3.157  25.068 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  16.2095     2.4123   6.720 1.44e-10 ***
+public       -6.4777     2.3729  -2.730  0.00683 ** 
+low_income    3.9175     0.9349   4.190 3.99e-05 ***
+white        -4.6852     0.9108  -5.144 5.80e-07 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 6.508 on 228 degrees of freedom
+Multiple R-squared:  0.1738,    Adjusted R-squared:  0.163 
+F-statistic: 15.99 on 3 and 228 DF,  p-value: 1.804e-09</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://modelsummary.com'>modelsummary</a></span><span class='op'>)</span></span>
+<span></span>
+<span><span class='fu'><a href='https://modelsummary.com/reference/modelsummary.html'>modelsummary</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>fit1</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
+</div>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:center;">
+ (1)
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+(Intercept)
+</td>
+<td style="text-align:center;">
+16.210
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+(2.412)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+public
+</td>
+<td style="text-align:center;">
+−6.478
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+(2.373)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+low_income
+</td>
+<td style="text-align:center;">
+3.917
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+(0.935)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+white
+</td>
+<td style="text-align:center;">
+−4.685
+</td>
+</tr>
+<tr>
+<td style="text-align:left;box-shadow: 0px 1.5px">
+</td>
+<td style="text-align:center;box-shadow: 0px 1.5px">
+(0.911)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Num.Obs.
+</td>
+<td style="text-align:center;">
+232
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+R2
+</td>
+<td style="text-align:center;">
+0.174
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+R2 Adj.
+</td>
+<td style="text-align:center;">
+0.163
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+AIC
+</td>
+<td style="text-align:center;">
+1533.4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BIC
+</td>
+<td style="text-align:center;">
+1550.6
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Log.Lik.
+</td>
+<td style="text-align:center;">
+−761.706
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RMSE
+</td>
+<td style="text-align:center;">
+6.45
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>dropout_type</span> <span class='op'>&lt;-</span> <span class='va'>dropout</span> <span class='op'>|&gt;</span></span>
 <span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span></span>
 <span>    <span class='va'>school_type</span> <span class='op'>==</span> <span class='st'>"Public"</span> <span class='op'>|</span> <span class='va'>school_type</span> <span class='op'>==</span> <span class='st'>"Charter"</span></span>
 <span>  <span class='op'>)</span> <span class='op'>|&gt;</span></span>
@@ -1675,7 +1844,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 <p><img src="index_files/figure-html5/race%20scatter-1.png" width="624" /></p>
 </div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

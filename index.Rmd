@@ -22,7 +22,7 @@ dropout <- read.csv("data/Student_Dropout.csv")
 ```
 
 ```{r school type scatter}
-dropout_type_year <- dropout |>
+dropout <- dropout |>
   mutate(
     school_type = case_when(School.Code == 26 | School.Code == 66 | School.Code == 80 | School.Code == 652 | School.Code == 770 ~ "Vocational-Technical",
                             School.Code == 354 | School.Code == 522 | School.Code == 537 | School.Code == 655 | School.Code == 689 ~ "Public (Alternative/SpecEd)",
@@ -30,7 +30,9 @@ dropout_type_year <- dropout |>
                             School.Code == 4040 ~ "Dual Enrollment",
                             School.Code == 0 ~ "State of Delaware",
                             TRUE ~ "Public")
-  ) |>
+  )
+
+dropout_type_year <- dropout |>
   filter(
     school_type == "Public" | school_type == "Charter"
   ) |>
@@ -50,16 +52,30 @@ dropout_type_scatter <- ggplot(data = dropout_type_year, mapping = aes(x = Schoo
 dropout_type_scatter
 ```
 
+```{r regression}
+dropout_lm <- dropout |>
+  drop_na(PctDropouts) |>
+  filter(
+    school_type == "Public" | school_type == "Charter"
+  ) |>
+  filter(SpecialDemo == "Low-Income" | SpecialDemo == "Non Low-Income") |>
+ filter(Race == "African American" | Race == "White" | Race == "Asian American" | Race == "Hispanic/Latino" | Race == "Multi-Racial" | Race == "Native American") |>
+  mutate(
+    low_income = if_else(SpecialDemo == "Low-Income", 1, 0),
+    public = if_else(school_type == "Public", 1, 0),
+    white = if_else(Race == "White", 1, 0)
+  )
+
+fit1 <- lm(PctDropouts ~ public + low_income + white, data = dropout_lm)
+summary(fit1)
+
+library(modelsummary)
+
+modelsummary(list(fit1))
+```
+
 ```{r school type bar}
 dropout_type <- dropout |>
-  mutate(
-    school_type = case_when(School.Code == 26 | School.Code == 66 | School.Code == 80 | School.Code == 652 | School.Code == 770 ~ "Vocational-Technical",
-                            School.Code == 354 | School.Code == 522 | School.Code == 537 | School.Code == 655 | School.Code == 689 ~ "Public (Alternative/SpecEd)",
-                            School.Code == 567 | School.Code == 570 | School.Code == 574 | School.Code == 576 | School.Code == 578 | School.Code == 587 | School.Code == 4055 | School.Code == 4060 | School.Code == 4075 | School.Code == 4080 ~ "Charter",
-                            School.Code == 4040 ~ "Dual Enrollment",
-                            School.Code == 0 ~ "State of Delaware",
-                            TRUE ~ "Public")
-  ) |>
   filter(
     school_type == "Public" | school_type == "Charter"
   ) |>
