@@ -76,39 +76,7 @@ modelsummary(list(fit1))
 
 According to this regression, attending a public school, rather than a charter, was associated with a decrease in the average student dropout rate of approximately -6.478%, where income status and whiteness are held constant. The adjusted R-squared value for this regression is 0.163, which indicates that about 16.3% of the variation in dropout rates in this sample can be attributed to the explanatory variable -- in this case, whether the school type is charter or public. 
 
-```{r school type bar}
-dropout_type <- dropout |>
-  filter(
-    school_type == "Public" | school_type == "Charter"
-  ) |>
-  group_by(school_type) |>
-  summarize(
-    avg_dropout_pct = mean(PctDropouts, na.rm = TRUE)
-  )
-
-dropout_type_bar <- ggplot(data = dropout_type, mapping = aes(x = school_type, y = avg_dropout_pct)) +
-  geom_col(fill = "dodgerblue1") +
-  labs(
-    x = "School Type",
-    y = "Average Dropout Rate (%)",
-    title = "Dropout Rates by School Type, 2015-2022"
-  )
-dropout_type_bar
-```
-
-```{r school type diff in means}
-dropout_type |>
-  pivot_wider(
-    names_from = school_type,
-    values_from = avg_dropout_pct
-  ) |>
-  mutate(
-    dim = `Charter` - `Public`
-  ) |>
-  rename("Difference in Means" = dim)
-```
-
-## Additional Plots
+## Additional Plots (In Progress)
 
 ```{r gender scatter}
 dropout_gender <- dropout |>
@@ -171,4 +139,36 @@ dropout_race_scatter <- ggplot(dropout_race_year, mapping =
   )
 
 dropout_race_scatter
+```
+
+```{r school type bar}
+dropout_type <- dropout |>
+  filter(
+    school_type == "Public" | school_type == "Charter"
+  ) |>
+  group_by(school_type) |>
+  summarize(
+    avg_dropout_pct = mean(PctDropouts, na.rm = TRUE)
+  )
+
+dropout_type_bar <- ggplot(data = dropout_type, mapping = aes(x = school_type, y = avg_dropout_pct)) +
+  geom_col(fill = "dodgerblue1") +
+  labs(
+    x = "School Type",
+    y = "Average Dropout Rate (%)",
+    title = "Dropout Rates by School Type, 2015-2022"
+  )
+dropout_type_bar
+```
+
+```{r school type diff in means}
+dropout_type |>
+  pivot_wider(
+    names_from = school_type,
+    values_from = avg_dropout_pct
+  ) |>
+  mutate(
+    dim = `Charter` - `Public`
+  ) |>
+  rename("Difference in Means" = dim)
 ```
